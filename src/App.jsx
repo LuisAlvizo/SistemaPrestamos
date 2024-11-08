@@ -6,6 +6,7 @@ import Register from '../src/Login/Register';
 import Navbar from '../src/navbar/navbar';
 import Home from '../src/Componentes/Home';
 import Historial from '../src/Componentes/Historial';
+import Configuracion from '../src/Componentes/Configuracion';
 
 function App() {
   const location = useLocation(); // Obtiene la ruta actual
@@ -27,6 +28,7 @@ function App() {
           {/* Rutas protegidas */}
           <Route path="/home" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
           <Route path="/historial" element={isAuthenticated ? <Historial /> : <Navigate to="/historial" />} />
+          <Route path="/configuracion" element={isAuthenticated ? <Configuracion /> : <Navigate to="/configuracion" />} />
         </Routes>
       </div>
     </div>

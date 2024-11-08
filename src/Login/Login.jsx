@@ -14,13 +14,18 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await loginUser(correo, password);
+      const response = await loginUser(correo, password);
+      
+      localStorage.setItem('id_usuario', response.data.id_usuario);
+      localStorage.setItem('rol', response.data.rol);
+      
       setMessage('Inicio de sesión exitoso');
       navigate('/home'); // Redirige a la página principal después de iniciar sesión
     } catch (error) {
       setMessage('Error al iniciar sesión: ' + (error.response?.data || error.message));
     }
   };
+  
 
   const handleRegisterRedirect = () => {
     navigate('/register'); // Redirige a la página de registro

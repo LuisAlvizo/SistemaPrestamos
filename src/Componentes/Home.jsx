@@ -19,7 +19,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import Swal from "sweetalert2";
-import { getBancos } from "../Api/api";
+import { getBancos, saveCotizacion } from "../Api/api";
 
 const Home = () => {
   const [bancos, setBancos] = useState([]);
@@ -41,6 +41,36 @@ const Home = () => {
       .catch((error) => console.error("Error al obtener los bancos:", error));
   }, []);
 
+  const handleSaveCotizacion = async () => {
+    const id_usuario = localStorage.getItem("id_usuario");
+
+    if (!id_usuario) {
+      Swal.fire("Error", "Usuario no autenticado", "error");
+      return;
+    }
+
+    const cotizacionData = {
+      monto_casa: tipoCotizacion === "sueldo" ? parseFloat(montoMaxCasa) : parseFloat(montoCasa),
+      monto_credito: parseFloat(montoPrestamo),
+      mensualidad: parseFloat(mensualidad),
+      tipo_cotizacion: tipoCotizacion === "montoCasa" ? "Monto de Casa" : "Sueldo",
+      monto_total: parseFloat(montoTotal),
+      sueldo_mensual: tipoCotizacion === "sueldo" ? parseFloat(sueldoMensual) : null,
+      year: parseInt(plazo),
+      id_banco: selectedBanco.id_banco,
+      id_usuario: parseInt(id_usuario),
+    };
+    
+
+    try {
+      const response = await saveCotizacion(cotizacionData);
+      Swal.fire("Éxito", "Cotización guardada exitosamente", "success");
+      console.log("Cotización guardada:", response.data);
+    } catch (error) {
+      Swal.fire("Error", "No se pudo guardar la cotización", "error");
+      console.error("Error al guardar la cotización:", error.message);
+    }
+  };
   const handleBancoChange = (event) => {
     const bancoId = event.target.value;
     const bancoSeleccionado = bancos.find(
@@ -65,7 +95,11 @@ const Home = () => {
   const calcularCotizacion = () => {
     // Verificar que todos los campos requeridos estén llenos
     if (!selectedBanco || !plazo || (!montoCasa && !sueldoMensual)) {
-      Swal.fire("Error", "Por favor, completa todos los campos antes de calcular.", "error");
+      Swal.fire(
+        "Error",
+        "Por favor, completa todos los campos antes de calcular.",
+        "error"
+      );
       return;
     }
 
@@ -77,15 +111,26 @@ const Home = () => {
     if (tipoCotizacion === "montoCasa") {
       // Validación para valores negativos en "Monto de la Casa"
       if (montoCasa <= 0) {
-        Swal.fire("Error", "El monto de la casa debe ser un valor positivo.", "error");
+        Swal.fire(
+          "Error",
+          "El monto de la casa debe ser un valor positivo.",
+          "error"
+        );
         return;
       }
 
       calculadoMontoPrestamo = montoCasa - (montoCasa * enganche) / 100;
 
       // Validación para Infonavit
-      if (selectedBanco.nombre === "Infonavit" && calculadoMontoPrestamo > 2000000) {
-        Swal.fire("Error", "Infonavit no permite préstamos mayores a 2 millones.", "error");
+      if (
+        selectedBanco.nombre === "Infonavit" &&
+        calculadoMontoPrestamo > 2000000
+      ) {
+        Swal.fire(
+          "Error",
+          "Infonavit no permite préstamos mayores a 2 millones.",
+          "error"
+        );
         return;
       }
 
@@ -106,7 +151,11 @@ const Home = () => {
       pagoMensual = maxPagoMensual;
 
       if (selectedBanco.nombre === "Infonavit" && montoMaximoCasa > 2000000) {
-        Swal.fire("Error", "Infonavit no permite préstamos mayores a 2 millones.", "error");
+        Swal.fire(
+          "Error",
+          "Infonavit no permite préstamos mayores a 2 millones.",
+          "error"
+        );
         return;
       }
 
@@ -158,9 +207,11 @@ const Home = () => {
               margin="normal"
               type="number"
               value={montoCasa}
-              onChange={(e) => setMontoCasa(e.target.value < 0 ? '' : e.target.value)}
+              onChange={(e) =>
+                setMontoCasa(e.target.value < 0 ? "" : e.target.value)
+              }
               InputProps={{
-                sx: { paddingLeft: '10px' }
+                sx: { paddingLeft: "10px" },
               }}
             />
           ) : (
@@ -171,9 +222,11 @@ const Home = () => {
               margin="normal"
               type="number"
               value={sueldoMensual}
-              onChange={(e) => setSueldoMensual(e.target.value < 0 ? '' : e.target.value)}
+              onChange={(e) =>
+                setSueldoMensual(e.target.value < 0 ? "" : e.target.value)
+              }
               InputProps={{
-                sx: { paddingLeft: '10px' }
+                sx: { paddingLeft: "10px" },
               }}
             />
           )}
@@ -203,7 +256,7 @@ const Home = () => {
             value={enganche}
             InputProps={{
               readOnly: true,
-              sx: { paddingLeft: '10px' }
+              sx: { paddingLeft: "10px" },
             }}
           />
 
@@ -216,7 +269,7 @@ const Home = () => {
             value={tasaInteres}
             InputProps={{
               readOnly: true,
-              sx: { paddingLeft: '10px' }
+              sx: { paddingLeft: "10px" },
             }}
           />
 
@@ -308,7 +361,17 @@ const Home = () => {
                   </TableRow>
                 </TableBody>
               </Table>
+
+              <br></br>
+                        <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSaveCotizacion}
+              >
+                Guardar Cotización
+              </Button>
             </TableContainer>
+            
           )}
         </CardContent>
       </Card>

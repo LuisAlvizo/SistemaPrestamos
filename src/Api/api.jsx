@@ -24,5 +24,19 @@ export const getBancos = () => {
   return api.get('/bancos');
 };
 
+export const saveCotizacion = (cotizacionData) => {
+  return api.post("/savecotizacion", cotizacionData);
+};
+
+export const getCotizaciones = (id_usuario) => {
+  return api.get(`/cotizaciones/${id_usuario}`);
+};
+
+export const getUsuarios = () => api.get('/usuarios');
+export const deleteUser = (id) => api.delete(`/usuario/${id}`);
+export const addBanco = (banco) => api.post('/addbanco', banco);
+export const updateBanco = (id, banco) => api.put(`/editbanco/${id}`, banco);
+export const deleteBanco = (id) => api.delete(`/deletebanco/${id}`);
+
 // Exportar la instancia de Axios para otras peticiones personalizadas
 export default api;
