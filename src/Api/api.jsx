@@ -19,5 +19,10 @@ export const registerUser = (userData) => {
   return api.post('/register', userData);
 };
 
+// Petición para obtener la lista de bancos
+export const getBancos = () => {
+  return api.get('/bancos');
+};
+
 // Exportar la instancia de Axios para otras peticiones personalizadas
 export default api;
