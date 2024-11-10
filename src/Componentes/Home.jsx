@@ -38,7 +38,7 @@ const Home = () => {
   useEffect(() => {
     getBancos()
       .then((response) => setBancos(response.data))
-      .catch((error) => console.error("Error al obtener los bancos:", error));
+      .catch((error) => console.error("Error al obtener los bancos", error));
   }, []);
 
   const handleSaveCotizacion = async () => {
