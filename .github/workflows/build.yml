@@ -1,36 +1,27 @@
-name: Build and SonarQube Analysis
+name: Build
 
 on:
   push:
     branches:
       - main
 
+
 jobs:
   build:
+    name: Build and analyze
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
         with:
-          node-version: '16'  # Cambia según la versión que necesitas para tu proyecto de React
-
-      - name: Install dependencies
-        run: npm install
-      
-      - name: Build project
-        run: npm run build
-
-      - name: SonarQube Scanner
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - uses: sonarsource/sonarqube-scan-action@v3
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: |
-          npx sonar-scanner \
-            -Dsonar.projectKey=SistemaPrestamos \
-            -Dsonar.sources=src \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      # If you wish to fail your job when the Quality Gate is red, uncomment the
+      # following lines. This would typically be used to fail a deployment.
+      # - uses: sonarsource/sonarqube-quality-gate-action@master
+      #   timeout-minutes: 5
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
