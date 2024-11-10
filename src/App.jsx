@@ -7,6 +7,7 @@ import Navbar from '../src/navbar/navbar';
 import Home from '../src/Componentes/Home';
 import Historial from '../src/Componentes/Historial';
 import Configuracion from '../src/Componentes/Configuracion';
+import Perfil from '../src/Componentes/Perfil';
 
 function App() {
   const location = useLocation(); // Obtiene la ruta actual
@@ -29,6 +30,7 @@ function App() {
           <Route path="/home" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
           <Route path="/historial" element={isAuthenticated ? <Historial /> : <Navigate to="/historial" />} />
           <Route path="/configuracion" element={isAuthenticated ? <Configuracion /> : <Navigate to="/configuracion" />} />
+          <Route path="/profile" element={isAuthenticated ? <Perfil /> : <Navigate to="/profile" />} />
         </Routes>
       </div>
     </div>

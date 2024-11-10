@@ -1,46 +1,52 @@
 /* src/Navbar.css */
 
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 200px;
-    background-color: #2c3e50;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .navbar-title {
-    font-size: 1.5em;
-    margin-bottom: 1em;
-  }
-  
-  .navbar-links {
-    list-style: none;
-    padding: 0;
-    width: 100%;
-    text-align: center;
-  }
-  
-  .navbar-links li {
-    margin: 10px 0;
-  }
-  
-  .navbar-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.2em;
-    display: block;
-    padding: 10px;
-  }
-  
-  .navbar-links a:hover {
-    background-color: #34495e;
-    border-radius: 5px;
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 200px;
+  background-color: #2c3e50;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-title {
+  font-size: 1.5em;
+  margin-bottom: 1em;
+}
+
+.navbar-links {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.navbar-links li {
+  margin: 10px 0;
+}
+
+.navbar-links a,
+.navbar-links .logout-button {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2em;
+  display: block;
+  padding: 10px;
+}
+
+.navbar-links a:hover,
+.navbar-links .logout-button:hover {
+  background-color: #34495e;
+  border-radius: 5px;
+}
+
+/* Additional style to match the logout button with other links */
+.navbar-links .logout-button {
+  cursor: pointer;
+}

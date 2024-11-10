@@ -1,10 +1,16 @@
 // src/Navbar.jsx
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
   const rol = localStorage.getItem("rol");
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
 
   return (
     <div className="navbar">
@@ -25,10 +31,9 @@ function Navbar() {
           </li>
         )}
         <li>
-          <Link to="/help">Ayuda</Link>
-        </li>
-        <li>
-          <Link to="/logout">Cerrar Sesión</Link>
+          <span onClick={handleLogout} className="logout-button">
+            Cerrar Sesión
+          </span>
         </li>
       </ul>
     </div>

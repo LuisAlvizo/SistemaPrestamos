@@ -141,7 +141,7 @@ const Home = () => {
         (Math.pow(1 + tasaMensual, totalPagos) - 1);
       setMontoMaxCasa(null);
     } else if (tipoCotizacion === "sueldo") {
-      const maxPagoMensual = sueldoMensual * 0.4;
+      const maxPagoMensual = sueldoMensual * 0.4; 
       const montoPrestamoAntesEnganche =
         (maxPagoMensual * (Math.pow(1 + tasaMensual, totalPagos) - 1)) /
         (tasaMensual * Math.pow(1 + tasaMensual, totalPagos));
